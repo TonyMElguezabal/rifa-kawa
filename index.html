@@ -47,6 +47,171 @@
       text-transform: uppercase;
     }
 
+    /* ── BANNER ─────────────────────────────────────────────────── */
+    #banner {
+      background: var(--black);
+      position: relative;
+      padding: 5rem 6vw 5rem;
+      text-align: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 28%, rgba(180,0,0,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 95%, rgba(100,0,0,0.09) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    .banner-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .banner-moto {
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .banner-pretitle {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 5.5vw, 3rem);
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 0.05rem;
+    }
+
+    .banner-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5.5rem, 20vw, 9.5rem);
+      color: var(--red-b);
+      line-height: 0.85;
+      letter-spacing: 0.01em;
+      display: block;
+    }
+
+    .banner-model {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .banner-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 11vw, 5.5rem);
+      color: var(--red-b);
+      line-height: 1;
+      display: inline-block;
+      font-style: italic;
+    }
+
+    .banner-racing {
+      font-family: 'Oswald', sans-serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 3.5vw, 2rem);
+      color: var(--white);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .banner-tag1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(0.8rem, 2.2vw, 1rem);
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .banner-tag2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(0.8rem, 2.2vw, 1rem);
+      font-weight: 700;
+      color: var(--red-b);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .banner-stats {
+      display: flex;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(5,5,5,0.9);
+    }
+
+    .banner-stat {
+      flex: 1;
+      padding: 0.85rem 1.25rem;
+      text-align: left;
+    }
+
+    .banner-stat + .banner-stat {
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .bs-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .bs-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 8vw, 3.8rem);
+      color: var(--red-b);
+      line-height: 1;
+      display: block;
+    }
+
+    .bs-sub {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .banner-note {
+      background: rgba(5,5,5,0.9);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-top: 2px solid var(--red-d);
+      padding: 1rem 1.25rem;
+    }
+
+    .banner-note p {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(0.7rem, 2vw, 0.88rem);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.65;
+    }
+
+    .banner-note .hi-red  { color: var(--red-b); font-weight: 700; }
+    .banner-note .hi-live { text-decoration: underline; text-underline-offset: 3px; color: var(--white); font-weight: 600; }
+
     /* ── HERO ────────────────────────────────────────────────────── */
     #hero {
       position: relative;
@@ -817,6 +982,48 @@
 </head>
 <body>
 
+<!-- ══════════════════════════ BANNER ══════════════════════════ -->
+<section id="banner">
+  <div class="banner-inner">
+
+    <span class="banner-moto">🏍</span>
+
+    <p class="banner-pretitle">GANA ESTA</p>
+    <span class="banner-brand">KAWASAKI</span>
+    <div class="banner-model">
+      <span class="banner-num">636</span>
+      <span class="banner-racing">Racing</span>
+    </div>
+
+    <p class="banner-tag1">RIFA ENTRE AMIGOS POR UNA BUENA CAUSA.</p>
+    <p class="banner-tag2">PARA AYUDAR A LA OPERACIÓN DEL TOPO.</p>
+
+    <div class="banner-stats">
+      <div class="banner-stat">
+        <span class="bs-label">Solo</span>
+        <span class="bs-val">150</span>
+        <span class="bs-sub">Boletos</span>
+      </div>
+      <div class="banner-stat">
+        <span class="bs-label">Precio del boleto</span>
+        <span class="bs-val">$1000</span>
+      </div>
+    </div>
+
+    <div class="banner-note">
+      <p>
+        CUANDO SE VENDAN TODOS LOS BOLETOS SE HARÁ LA
+        <span class="hi-red">RIFA EN TÓMBOLA</span>
+        Y SE HARÁ
+        <span class="hi-live">TRANSMISIÓN EN VIVO</span>
+        PARA QUE SEA TRANSPARENTE.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
 <section id="hero">
   <div class="hero-bar" id="heroBar"></div>
@@ -1141,6 +1348,18 @@
      GSAP ANIMATIONS
   ───────────────────────────────────────────────────────────────── */
   gsap.registerPlugin(ScrollTrigger);
+
+  // Banner entrance
+  const bannerTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  bannerTl
+    .from('.banner-moto',     { opacity: 0, y: -12, duration: 0.5 })
+    .from('.banner-pretitle', { opacity: 0, y: 20,  duration: 0.55 }, '-=0.2')
+    .from('.banner-brand',    { opacity: 0, y: 30,  duration: 0.65, ease: 'power4.out' }, '-=0.25')
+    .from('.banner-model',    { opacity: 0, y: 18,  duration: 0.5  }, '-=0.3')
+    .from('.banner-tag1',     { opacity: 0, x: -16, duration: 0.45 }, '-=0.15')
+    .from('.banner-tag2',     { opacity: 0, x: -16, duration: 0.45 }, '-=0.3')
+    .from('.banner-stats',    { opacity: 0, y: 14,  duration: 0.45 }, '-=0.1')
+    .from('.banner-note',     { opacity: 0, y: 10,  duration: 0.4  }, '-=0.2');
 
   // Top red bar sweep
   gsap.to('#heroBar', { scaleX: 1, duration: 1.1, ease: 'power3.out', delay: 0.1 });
