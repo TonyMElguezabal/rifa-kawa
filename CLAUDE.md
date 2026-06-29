@@ -31,6 +31,7 @@ Static single-page raffle site for a **Kawasaki ZX-6R 636 Racing 2006**. No buil
 
 ## Key sections
 
+0. **Banner** (`#banner`) — Centered text-only section at the very top (above `#hero`). Summarizes the raffle in one glance: motorcycle emoji, brand/model typography, price stats, and a transparency note. Animated by `bannerTl`, a `gsap.timeline()` chaining `.from()` calls — **not** the individual `gsap.to/from()` pattern used elsewhere. Add new banner content by appending `.from()` to `bannerTl`.
 1. **Hero** (`#hero`) — Full-screen two-column grid. Left: title hierarchy + stats + CTA. Right: `Kawa1.png` motorcycle photo inside `.hero-img-frame`. GSAP entrance animations on load.
 2. **Specs** (`#specs`) — Sticky left panel (`.specs-pin`) + scrolling right column (`.specs-scroll`) with `.spec-group` blocks. ScrollTrigger reveals each group and its `.sg-item` rows with stagger.
 3. **Videos** (`#videos`) — Two `.video-slot` placeholder divs (`#vs1`, `#vs2`). Replace with `<iframe>` or `<video>` when ready.
@@ -50,6 +51,10 @@ All animations run once (`once: true` on ScrollTrigger). Two types:
 - **Scroll animations**: `gsap.to()` with `scrollTrigger: { trigger, start: 'top 83-88%', once: true }` — elements start with `opacity: 0` and an offset transform in CSS, then animate to natural state
 
 When adding a new scroll-animated element: set `opacity: 0` and a `transform` in CSS, then add a `gsap.to()` block in the `<script>` following the existing pattern.
+
+## Photos
+
+`scontent/` contains additional motorcycle photos (`kt1.jpeg`–`kt6.jpeg`) not yet referenced in the HTML. `Kawa1.png` at the repo root is the one currently in use in `#hero`. To swap or add images, point `<img src="...">` inside `.img-placeholder` (inside `.hero-img-frame`) to the desired file.
 
 ## Updating sold tickets
 

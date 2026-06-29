@@ -542,6 +542,79 @@
       50%       { opacity: 1; }
     }
 
+    /* ── CAROUSEL ───────────────────────────────────────────────── */
+    .carousel {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.75s ease;
+      display: block;
+    }
+
+    .carousel-slide.active { opacity: 1; }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(5,5,5,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+      padding: 0;
+    }
+
+    .hero-img-frame:hover .carousel-btn { opacity: 1; }
+    .carousel-btn:hover { background: rgba(209,0,0,0.5); border-color: var(--red); }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 5;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background: var(--red-b);
+      transform: scale(1.4);
+    }
+
     /* ── SPECS ───────────────────────────────────────────────────── */
     #specs {
       position: relative;
@@ -920,9 +993,24 @@
       user-select: none;
     }
 
-    .tn.av { color: var(--red-b); border-color: rgba(209,0,0,0.2); cursor: default; }
+    .tn.av   { color: var(--red-b);  border-color: rgba(209,0,0,0.2);    cursor: default;       }
     .tn.av:hover { background: rgba(209,0,0,0.1); border-color: var(--red); }
-    .tn.sd { color: var(--border); text-decoration: line-through; cursor: not-allowed; }
+    .tn.rsvd { color: #F59E0B;     border-color: rgba(245,158,11,0.2); cursor: default;       }
+    .tn.rsvd:hover { background: rgba(245,158,11,0.07); border-color: #F59E0B; }
+    .tn.sd   { color: var(--border); text-decoration: line-through;    cursor: not-allowed;   }
+
+    .ld.rsvd { background: #F59E0B; }
+
+    .tickets-loading {
+      grid-column: 1 / -1;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding: 2.5rem 0;
+      text-align: center;
+    }
 
     /* ── FOOTER ──────────────────────────────────────────────────── */
     footer {
@@ -1086,13 +1174,25 @@
     <div class="hero-img-wrap">
       <div class="hero-img-glow"></div>
       <div class="hero-img-frame" id="heroFrame">
-        <!--
-          FOTO DE LA MOTO:
-          Reemplaza .img-placeholder con tu imagen:
-          <img src="Kawa1.png" alt="Kawasaki 636 Racing">
-        -->
-        <div class="img-placeholder">
-<img src="Kawa1.png" alt="Kawasaki 636 Racing">
+        <div class="carousel" id="heroCarousel">
+          <img class="carousel-slide active" src="Kawa1.png"             alt="Kawasaki 636 Racing — perfil lateral">
+          <img class="carousel-slide"        src="scontent/kt2.jpeg"     alt="Kawasaki 636 Racing — vista delantera 3/4">
+          <img class="carousel-slide"        src="scontent/kt3.jpeg"     alt="Kawasaki 636 Racing — perfil derecho">
+          <img class="carousel-slide"        src="scontent/kt5.jpeg"     alt="Kawasaki 636 Racing — frente">
+          <img class="carousel-slide"        src="scontent/kt4.jpeg"     alt="Kawasaki 636 Racing — escape y trasera">
+          <img class="carousel-slide"        src="scontent/kt1.jpeg"     alt="Kawasaki 636 Racing — cabina superior">
+          <img class="carousel-slide"        src="scontent/kt6.jpeg"     alt="Kawasaki 636 Racing — cockpit y manubrio">
+          <button class="carousel-btn prev" aria-label="Anterior">&#8249;</button>
+          <button class="carousel-btn next" aria-label="Siguiente">&#8250;</button>
+          <div class="carousel-dots">
+            <button class="carousel-dot active" aria-label="Foto 1"></button>
+            <button class="carousel-dot" aria-label="Foto 2"></button>
+            <button class="carousel-dot" aria-label="Foto 3"></button>
+            <button class="carousel-dot" aria-label="Foto 4"></button>
+            <button class="carousel-dot" aria-label="Foto 5"></button>
+            <button class="carousel-dot" aria-label="Foto 6"></button>
+            <button class="carousel-dot" aria-label="Foto 7"></button>
+          </div>
         </div>
         <div class="corner-badge">ZX-6R 2006</div>
       </div>
@@ -1305,6 +1405,7 @@
         <h2 class="tickets-heading">Números disponibles</h2>
         <div class="legend">
           <div class="legend-item"><div class="ld av"></div>Disponible</div>
+          <div class="legend-item"><div class="ld rsvd"></div>Apartado</div>
           <div class="legend-item"><div class="ld sd"></div>Vendido</div>
         </div>
       </div>
@@ -1325,24 +1426,73 @@
 
 <script>
   /* ─────────────────────────────────────────────────────────────────
-     TICKET DATA
-     Para marcar un boleto como vendido, agrega su número al Set.
-     Ejemplo: const soldTickets = new Set([5, 12, 77, 100]);
+     TICKETS — datos desde Google Sheets (JSONP, sin restricciones CORS)
+     Requiere: Compartir → Cualquier persona con el enlace → Ver
+     Columna B (B3:B152) = número de boleto · Columna D = estado
   ───────────────────────────────────────────────────────────────── */
-  const soldTickets = new Set([
-    // Agrega aquí los números ya vendidos, separados por coma:
-    // 1, 2, 15, 33, ...
-  ]);
+  const SPREADSHEET_ID = '12VfJZHUeVDf5I57lZgQO999yp8uJyZyFNK_zZAUCWw8';
 
-  const grid = document.getElementById('ticketsGrid');
-  for (let i = 1; i <= 150; i++) {
-    const el = document.createElement('div');
-    const sold = soldTickets.has(i);
-    el.className = 'tn ' + (sold ? 'sd' : 'av');
-    el.textContent = String(i).padStart(3, '0');
-    el.title = sold ? `Boleto ${i} — Vendido` : `Boleto ${i} — Disponible`;
-    grid.appendChild(el);
+  const ESTADOS = { 'Disponible': 'av', 'Apartado': 'rsvd', 'Vendido': 'sd' };
+  const LABELS  = { av: 'Disponible', rsvd: 'Apartado', sd: 'Vendido' };
+
+  function buildGrid(stateMap) {
+    const grid = document.getElementById('ticketsGrid');
+    grid.innerHTML = '';
+    for (let i = 1; i <= 150; i++) {
+      const el  = document.createElement('div');
+      const cls = stateMap[i] || 'av';
+      el.className   = 'tn ' + cls;
+      el.textContent = String(i).padStart(3, '0');
+      el.title       = `Boleto ${i} — ${LABELS[cls]}`;
+      grid.appendChild(el);
+    }
+    gsap.to('.tn', {
+      scrollTrigger: { trigger: '#ticketsGrid', start: 'top 88%', once: true },
+      scale: 1, opacity: 1,
+      duration: 0.32,
+      stagger: { each: 0.007, from: 'start' },
+      ease: 'back.out(1.7)'
+    });
   }
+
+  (function loadTickets() {
+    document.getElementById('ticketsGrid').innerHTML =
+      '<p class="tickets-loading">Cargando boletos&hellip;</p>';
+
+    const cb  = '__rifaGvizCb';
+    const scr = document.createElement('script');
+    const q   = encodeURIComponent('select B,D');
+    scr.src   = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq` +
+                `?tqx=responseHandler:${cb}&headers=2&tq=${q}`;
+
+    window[cb] = function (resp) {
+      scr.remove();
+      delete window[cb];
+      const stateMap = {};
+      try {
+        (resp.table.rows || []).forEach(function (row) {
+          const numVal = row.c[0] && row.c[0].v;
+          const estado = (row.c[1] && row.c[1].v) || '';
+          const num    = Math.round(numVal);
+          if (num >= 1 && num <= 150) {
+            stateMap[num] = ESTADOS[estado] || 'av';
+          }
+        });
+      } catch (e) {
+        console.warn('[Rifa] Error al procesar datos:', e);
+      }
+      buildGrid(stateMap);
+    };
+
+    scr.onerror = function () {
+      scr.remove();
+      delete window[cb];
+      console.warn('[Rifa] No se pudo cargar la hoja. Verifica que esté compartida públicamente.');
+      buildGrid({});
+    };
+
+    document.head.appendChild(scr);
+  }());
 
   /* ─────────────────────────────────────────────────────────────────
      GSAP ANIMATIONS
@@ -1435,14 +1585,46 @@
     opacity: 1, y: 0, duration: 0.55, ease: 'power3.out'
   });
 
-  // ── TICKET NUMBERS wave pop-in ──
-  gsap.to('.tn', {
-    scrollTrigger: { trigger: '#ticketsGrid', start: 'top 88%', once: true },
-    scale: 1, opacity: 1,
-    duration: 0.32,
-    stagger: { each: 0.007, from: 'start' },
-    ease: 'back.out(1.7)'
-  });
+  /* ── CAROUSEL ── */
+  (function () {
+    const slides  = document.querySelectorAll('.carousel-slide');
+    const dots    = document.querySelectorAll('.carousel-dot');
+    let   current = 0;
+    let   timer;
+    let   startX  = 0;
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function startAuto() { timer = setInterval(() => goTo(current + 1), 4500); }
+    function stopAuto()  { clearInterval(timer); }
+
+    document.querySelector('.carousel-btn.prev')
+      .addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+    document.querySelector('.carousel-btn.next')
+      .addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); })
+    );
+
+    const frame = document.getElementById('heroFrame');
+    frame.addEventListener('mouseenter', stopAuto);
+    frame.addEventListener('mouseleave', startAuto);
+
+    frame.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    frame.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { stopAuto(); goTo(current + (dx < 0 ? 1 : -1)); startAuto(); }
+    }, { passive: true });
+
+    startAuto();
+  }());
 </script>
 
 </body>
