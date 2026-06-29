@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rifa · Kawasaki 636 Racing</title>
+  <meta name="description" content="Gana esta Kawasaki 636 Racing. Solo 150 boletos a $1,000. Para ayudar a la operación del Topo. Michoacán, México.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --red:    #D10000;
+      --red-b:  #FF1A1A;
+      --red-d:  #8B0000;
+      --black:  #050505;
+      --surf:   #0F0F0F;
+      --surf2:  #181818;
+      --surf3:  #1F1F1F;
+      --white:  #FFFFFF;
+      --muted:  #666666;
+      --text:   #BBBBBB;
+      --border: #1C1C1C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── SHARED ─────────────────────────────────────────────────── */
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--red-b);
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 6rem 6vw 4rem;
+      overflow: hidden;
+      gap: 4vw;
+    }
+
+    /* Atmospheric dark background with subtle red vignette */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 60%, rgba(180,0,0,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(120,0,0,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Top red bar */
+    .hero-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red) 25%, var(--red-b) 75%, transparent);
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    /* Faint diagonal slash */
+    .hero-slash {
+      position: absolute;
+      top: -10%;
+      left: 48%;
+      width: 1px;
+      height: 130%;
+      background: linear-gradient(to bottom, transparent, rgba(209,0,0,0.15), transparent);
+      transform: rotate(8deg);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+      opacity: 0;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red-b);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.15; }
+    }
+
+    /* Main title block */
+    .hero-pretitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
+      overflow: hidden;
+    }
+
+    .hero-pretitle .line { display: block; }
+
+    .hero-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 11vw, 10rem);
+      line-height: 0.82;
+      color: var(--red);
+      letter-spacing: 0.01em;
+      overflow: hidden;
+      display: block;
+    }
+
+    .hero-brand .line { display: block; }
+
+    .hero-model-tag {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .model-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      color: var(--red-b);
+      line-height: 1;
+    }
+
+    .model-racing {
+      font-family: 'Oswald', sans-serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2vw, 1.6rem);
+      color: var(--red);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Why / causa */
+    .hero-causa {
+      margin-top: 1.75rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      line-height: 1.7;
+      text-transform: uppercase;
+      border-left: 2px solid var(--red);
+      padding-left: 1rem;
+      opacity: 0;
+    }
+
+    .hero-causa strong {
+      color: var(--white);
+    }
+
+    /* Info boxes — precio / boletos */
+    .hero-boxes {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+      opacity: 0;
+    }
+
+    .info-box {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-box .ib-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .info-box .ib-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--white);
+      line-height: 1;
+      margin-top: 0.15rem;
+    }
+
+    .info-box .ib-val.red { color: var(--red-b); }
+
+    /* Transparency note */
+    .hero-note {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.65;
+      max-width: 400px;
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+
+    .hero-note em { color: var(--red-b); font-style: normal; font-weight: 600; }
+
+    /* CTAs */
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      opacity: 0;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .btn-primary svg { width: 20px; height: 20px; fill: var(--white); flex-shrink: 0; }
+
+    .btn-primary:hover { background: #F50000; transform: translateY(-2px); }
+
+    .btn-ghost {
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 3px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--red-b); border-color: var(--red-b); }
+
+    /* Hero image */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .hero-img-wrap { position: relative; width: 100%; max-width: 580px; }
+
+    .hero-img-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse at center, rgba(180,0,0,0.14) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-img-frame {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+      background: var(--surf);
+    }
+
+    .hero-img-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(209,0,0,0.3);
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .hero-img-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--surf);
+    }
+
+    .img-placeholder .ph-moto { font-size: 5rem; opacity: 0.15; line-height: 1; }
+
+    .img-placeholder p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .corner-badge {
+      position: absolute;
+      bottom: 0; left: 0;
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      padding: 0.4rem 1rem;
+      z-index: 4;
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+
+    .scroll-hint span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .scroll-bar {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--red), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.25; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── SPECS ───────────────────────────────────────────────────── */
+    #specs {
+      position: relative;
+      padding: 0 6vw;
+    }
+
+    .specs-inner {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 6vw;
+    }
+
+    .specs-pin {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 0;
+    }
+
+    .specs-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 0.88;
+      margin: 0.75rem 0 1.25rem;
+    }
+
+    .specs-heading .accent { color: var(--red); }
+
+    .specs-sub {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.7;
+      max-width: 250px;
+    }
+
+    .specs-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+      padding: 0.7rem 1.2rem;
+      border: 1px solid var(--border);
+      background: var(--surf);
+    }
+
+    .chip-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.75rem;
+      color: var(--red-b);
+      line-height: 1;
+    }
+
+    .chip-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
+
+    .specs-scroll { padding: 8rem 0 10rem; }
+
+    .spec-group {
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .sg-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--red-b);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .sg-title::after {
+      content: ''; flex: 1;
+      height: 1px; background: var(--border);
+    }
+
+    .sg-list { list-style: none; }
+
+    .sg-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateX(-14px);
+    }
+
+    .sg-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+      margin-top: 0.6rem;
+    }
+
+    .sg-text {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .sg-text strong { color: var(--white); font-weight: 600; }
+
+    .wt-callout {
+      margin-top: 3rem;
+      padding: 1.75rem 2rem;
+      background: var(--surf);
+      border-left: 3px solid var(--red-b);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .wt-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      color: var(--red-b);
+      line-height: 1;
+    }
+
+    .wt-unit {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.75rem;
+      color: var(--muted);
+    }
+
+    .wt-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    /* ── VIDEOS ──────────────────────────────────────────────────── */
+    #videos {
+      padding: 8rem 6vw;
+      background: var(--surf);
+    }
+
+    .videos-hd {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .videos-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin: 0.75rem 0 1rem;
+    }
+
+    .videos-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .video-slot {
+      aspect-ratio: 16/9;
+      background: var(--surf2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border: 1px dashed var(--border);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .video-slot::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(180,0,0,0.04) 0%, transparent 55%);
+    }
+
+    .play-ring {
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative; z-index: 1;
+      transition: border-color 0.2s;
+    }
+
+    .video-slot:hover .play-ring { border-color: var(--red); }
+
+    .play-ring svg {
+      width: 20px; height: 20px;
+      fill: var(--muted);
+      margin-left: 3px;
+      transition: fill 0.2s;
+    }
+
+    .video-slot:hover .play-ring svg { fill: var(--red-b); }
+
+    .video-slot p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      position: relative; z-index: 1;
+    }
+
+    .video-slot iframe,
+    .video-slot video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* ── CONTACTO ────────────────────────────────────────────────── */
+    #contacto {
+      padding: 8rem 6vw 6rem;
+    }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6vw;
+      align-items: start;
+    }
+
+    .contacto-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      line-height: 0.9;
+      margin: 0.75rem 0 2.5rem;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 1.75rem; margin-bottom: 3rem; }
+
+    .step {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      opacity: 0;
+      transform: translateX(-14px);
+    }
+
+    .step-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--red);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2.5rem;
+    }
+
+    .step-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .step-body  { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* Contact card */
+    .contact-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .cc-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--red-b);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .cc-entries { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .cc-entry { display: flex; align-items: center; gap: 1rem; }
+
+    .cc-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--surf2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cc-icon svg { width: 18px; height: 18px; fill: var(--red-b); }
+
+    .cc-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .cc-val { font-size: 1rem; font-weight: 600; margin-top: 1px; }
+
+    /* ── TICKETS ─────────────────────────────────────────────────── */
+    .tickets-panel { padding-top: 1rem; }
+
+    .tickets-hd {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tickets-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    }
+
+    .legend { display: flex; gap: 1.25rem; }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .ld { width: 10px; height: 10px; border-radius: 2px; }
+    .ld.av { background: var(--red); }
+    .ld.sd { background: var(--surf3); border: 1px solid var(--border); }
+
+    .tickets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+      gap: 5px;
+    }
+
+    .tn {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      transition: background 0.12s, border-color 0.12s;
+      opacity: 0;
+      transform: scale(0.75);
+      user-select: none;
+    }
+
+    .tn.av { color: var(--red-b); border-color: rgba(209,0,0,0.2); cursor: default; }
+    .tn.av:hover { background: rgba(209,0,0,0.1); border-color: var(--red); }
+    .tn.sd { color: var(--border); text-decoration: line-through; cursor: not-allowed; }
+
+    /* ── FOOTER ──────────────────────────────────────────────────── */
+    footer {
+      padding: 2.5rem 6vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .footer-dot { width: 5px; height: 5px; background: var(--red); border-radius: 50%; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      #hero {
+        grid-template-columns: 1fr;
+        padding-top: 5rem;
+      }
+
+      .hero-visual { justify-content: center; margin-top: 3rem; }
+      .hero-img-wrap { max-width: 100%; }
+
+      .specs-inner { grid-template-columns: 1fr; }
+
+      .specs-pin {
+        position: relative;
+        height: auto;
+        padding: 5rem 0 3rem;
+      }
+
+      .contacto-grid { grid-template-columns: 1fr; }
+      .videos-grid   { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-boxes { flex-direction: column; }
+      .tickets-grid { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<section id="hero">
+  <div class="hero-bar" id="heroBar"></div>
+  <div class="hero-slash"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow eyebrow">
+      <span class="dot"></span>
+      Rifa entre amigos &nbsp;·&nbsp; Michoacán, México
+    </div>
+
+    <!-- Title hierarchy matching the flyer -->
+    <div class="hero-pretitle">
+      <span class="line" id="hl1">GANA ESTA</span>
+    </div>
+    <div class="hero-brand">
+      <span class="line" id="hl2">KAWASAKI</span>
+    </div>
+    <div class="hero-model-tag" id="hl3">
+      <span class="model-num">636</span>
+      <span class="model-racing">Racing</span>
+    </div>
+
+    <!-- Por qué la rifa -->
+    <p class="hero-causa">
+      Rifa entre amigos por una buena causa.<br>
+      <strong>Para ayudar a la operación del Topo.</strong>
+    </p>
+
+    <!-- Precio / boletos -->
+    <div class="hero-boxes">
+      <div class="info-box">
+        <span class="ib-label">Solo</span>
+        <span class="ib-val">150 <span style="font-size:0.5em;color:var(--muted)">boletos</span></span>
+      </div>
+      <div class="info-box">
+        <span class="ib-label">Precio del boleto</span>
+        <span class="ib-val red">$1,000</span>
+      </div>
+    </div>
+
+    <!-- Transparency note -->
+    <p class="hero-note">
+      Cuando se vendan todos los boletos, se realizará la rifa en tómbola y se hará
+      <em>transmisión en vivo</em> para que sea completamente transparente.
+    </p>
+
+    <!-- CTAs -->
+    <div class="hero-cta">
+      <a href="https://wa.me/523313039642" target="_blank" rel="noopener" class="btn-primary">
+        <!-- WhatsApp icon -->
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.529 5.853L.057 23.25c-.073.27.003.553.196.745a.75.75 0 0 0 .745.196l5.397-1.472A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.893 0-3.663-.523-5.176-1.432l-.371-.22-3.853 1.051 1.051-3.853-.22-.371A9.957 9.957 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp: 331 303 9642
+      </a>
+      <a href="#specs" class="btn-ghost">Ver la moto</a>
+    </div>
+  </div><!-- /hero-content -->
+
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <div class="hero-img-glow"></div>
+      <div class="hero-img-frame" id="heroFrame">
+        <!--
+          FOTO DE LA MOTO:
+          Reemplaza .img-placeholder con tu imagen:
+          <img src="kawasaki-636.jpg" alt="Kawasaki 636 Racing">
+        -->
+        <div class="img-placeholder">
+          <div class="ph-moto">🏍</div>
+          <p>Agrega la foto<br>de la Kawasaki aquí</p>
+        </div>
+        <div class="corner-badge">ZX-6R 2006</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Desliza</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ SPECS ══════════════════════════ -->
+<section id="specs">
+  <div class="specs-inner">
+
+    <div class="specs-pin">
+      <p class="eyebrow">Especificaciones</p>
+      <h2 class="specs-heading">LA <span class="accent">MÁQUINA</span></h2>
+      <p class="specs-sub">
+        Kawasaki ZX-6R 2006 preparada de competencia. Cada componente elegido con precisión.
+      </p>
+      <div class="specs-chip">
+        <span class="chip-val">636</span>
+        <span class="chip-lbl">cc · en línea<br>4 cilindros</span>
+      </div>
+    </div>
+
+    <div class="specs-scroll">
+
+      <div class="spec-group">
+        <h3 class="sg-title">Motor refrescado</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Metales de bancada y biela</strong> — tolerancias de motor revisadas</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Anillos nuevos</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Sellos de válvula</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Cadena de distribución</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Empaque de cabeza ATHENA</strong> + kit de empaques completo ATHENA</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Bielas aligeradas</strong> con corte navaja al frente para cortar aceite</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Cabeza porteada</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Black off plates</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Filtro de aire K&amp;N</strong></span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Escape</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Media tubería en acero inoxidable</strong> + silenciador <strong>SC Project</strong></span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Carrocería</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Carenado completo KOZUMA</strong> con Ram Air de tela marina</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Mica de doble burbuja</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Sliders laterales</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Tapón de gasolina Racing</span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Mandos y controles</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Clips on de competencia</strong></span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Acelerador ¼ de vuelta</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Manijas de clutch y frenos ajustables ASV</strong></span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Protector de manija de freno</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Simplificación de mandos</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Válvulas de rines laterales</span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Frenos y dirección</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Líneas de freno aceradas</strong></span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Calipers delanteros NISSIN</strong></span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Damper estabilizador</span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Arrastre y tracción</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Kit de arrastre VORTEX completo</strong></span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Protector de cadena inferior</span></li>
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Slick delantero DUNLOP</strong> · <strong>Slick trasero PIRELLI SC1</strong></span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Electrónica</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text"><strong>Computadora reprogramada</strong> con licencia <strong>FT ECU Flash</strong></span></li>
+        </ul>
+      </div>
+
+      <div class="spec-group">
+        <h3 class="sg-title">Documentación</h3>
+        <ul class="sg-list">
+          <li class="sg-item"><span class="sg-dot"></span><span class="sg-text">Papeles en regla con placas de Michoacán — todo pagado</span></li>
+        </ul>
+      </div>
+
+      <div class="wt-callout" id="wtCallout">
+        <div>
+          <span class="wt-num">167</span><span class="wt-unit"> kg</span>
+        </div>
+        <p class="wt-note">En orden de marcha · La moto está aligerada</p>
+      </div>
+
+    </div><!-- /specs-scroll -->
+  </div><!-- /specs-inner -->
+</section>
+
+
+<!-- ══════════════════════════ VIDEOS ══════════════════════════ -->
+<section id="videos">
+  <div class="videos-hd">
+    <p class="eyebrow" style="display:flex;justify-content:center">En acción</p>
+    <h2 class="videos-title">MÍRALA RODAR</h2>
+    <p class="videos-sub">La Kawasaki 636 Racing en pista. Videos disponibles próximamente.</p>
+  </div>
+  <div class="videos-grid">
+    <!--
+      PARA AGREGAR UN VIDEO DE YOUTUBE:
+      Reemplaza la .video-slot entera con:
+      <div class="video-slot">
+        <iframe src="https://www.youtube.com/embed/ID_DEL_VIDEO" allowfullscreen></iframe>
+      </div>
+
+      PARA VIDEO LOCAL (.mp4):
+      <div class="video-slot">
+        <video src="tu-video.mp4" controls></video>
+      </div>
+    -->
+    <div class="video-slot" id="vs1">
+      <div class="play-ring">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <p>Próximamente</p>
+    </div>
+    <div class="video-slot" id="vs2">
+      <div class="play-ring">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <p>Próximamente</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ CONTACTO ══════════════════════════ -->
+<section id="contacto">
+  <div class="contacto-grid">
+
+    <div>
+      <p class="eyebrow">Participar</p>
+      <h2 class="contacto-heading">¿CÓMO<br>CONSIGO<br>MI BOLETO?</h2>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-n">01</span>
+          <div>
+            <p class="step-title">Elige tu número</p>
+            <p class="step-body">Revisa la tabla de números disponibles y aparta el que quieras.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-n">02</span>
+          <div>
+            <p class="step-title">Manda un WhatsApp</p>
+            <p class="step-body">Dinos el número que elegiste y te lo separamos a tu nombre.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-n">03</span>
+          <div>
+            <p class="step-title">Realiza tu pago</p>
+            <p class="step-body">Confirma con el pago de $1,000. Te mandamos tu comprobante y listo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card" id="contactCard">
+        <p class="cc-title">Contacto directo</p>
+        <div class="cc-entries">
+          <div class="cc-entry">
+            <div class="cc-icon">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.529 5.853L.057 23.25c-.073.27.003.553.196.745a.75.75 0 0 0 .745.196l5.397-1.472A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.893 0-3.663-.523-5.176-1.432l-.371-.22-3.853 1.051 1.051-3.853-.22-.371A9.957 9.957 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            </div>
+            <div>
+              <p class="cc-lbl">WhatsApp / Llamada</p>
+              <a href="https://wa.me/523313039642" target="_blank" rel="noopener"
+                 style="color:var(--white);text-decoration:none;">
+                <p class="cc-val">331 303 9642</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /contacto-info -->
+
+    <!-- Tickets -->
+    <div class="tickets-panel">
+      <div class="tickets-hd">
+        <h2 class="tickets-heading">Números disponibles</h2>
+        <div class="legend">
+          <div class="legend-item"><div class="ld av"></div>Disponible</div>
+          <div class="legend-item"><div class="ld sd"></div>Vendido</div>
+        </div>
+      </div>
+      <div class="tickets-grid" id="ticketsGrid"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer>
+  <p>Rifa · Kawasaki 636 Racing · Michoacán, México</p>
+  <div class="footer-dot"></div>
+  <p>150 boletos · $1,000 c/u · Un solo ganador</p>
+</footer>
+
+
+<script>
+  /* ─────────────────────────────────────────────────────────────────
+     TICKET DATA
+     Para marcar un boleto como vendido, agrega su número al Set.
+     Ejemplo: const soldTickets = new Set([5, 12, 77, 100]);
+  ───────────────────────────────────────────────────────────────── */
+  const soldTickets = new Set([
+    // Agrega aquí los números ya vendidos, separados por coma:
+    // 1, 2, 15, 33, ...
+  ]);
+
+  const grid = document.getElementById('ticketsGrid');
+  for (let i = 1; i <= 150; i++) {
+    const el = document.createElement('div');
+    const sold = soldTickets.has(i);
+    el.className = 'tn ' + (sold ? 'sd' : 'av');
+    el.textContent = String(i).padStart(3, '0');
+    el.title = sold ? `Boleto ${i} — Vendido` : `Boleto ${i} — Disponible`;
+    grid.appendChild(el);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     GSAP ANIMATIONS
+  ───────────────────────────────────────────────────────────────── */
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Top red bar sweep
+  gsap.to('#heroBar', { scaleX: 1, duration: 1.1, ease: 'power3.out', delay: 0.1 });
+
+  // Hero eyebrow
+  gsap.to('.hero-eyebrow', { opacity: 1, duration: 0.7, delay: 0.35, ease: 'power3.out' });
+
+  // Hero title lines — "GANA ESTA", "KAWASAKI", "636 Racing"
+  gsap.from('#hl1', { y: '110%', opacity: 0, duration: 0.75, delay: 0.5, ease: 'power4.out' });
+  gsap.from('#hl2', { y: '105%', opacity: 0, duration: 0.85, delay: 0.62, ease: 'power4.out' });
+  gsap.from('#hl3', { y: 30, opacity: 0, duration: 0.7,  delay: 0.78, ease: 'power3.out' });
+
+  // Subsequent hero elements
+  gsap.from('.hero-causa', { opacity: 0, x: -20, duration: 0.7, delay: 0.95, ease: 'power3.out' });
+  gsap.to('.hero-boxes',   { opacity: 1, duration: 0.6, delay: 1.1,  ease: 'power3.out' });
+  gsap.from('.hero-note',  { opacity: 0, y: 12,  duration: 0.6, delay: 1.2,  ease: 'power3.out' });
+  gsap.to('.hero-cta',     { opacity: 1, duration: 0.6, delay: 1.35, ease: 'power3.out' });
+
+  // Hero image wipe from right
+  gsap.from('#heroFrame', {
+    clipPath: 'inset(0 100% 0 0)',
+    opacity: 0,
+    duration: 1.1,
+    delay: 0.7,
+    ease: 'power4.inOut'
+  });
+
+  // ── SPECS ──
+  document.querySelectorAll('.spec-group').forEach((group) => {
+    const trig = { trigger: group, start: 'top 83%', once: true };
+
+    gsap.to(group, {
+      scrollTrigger: trig,
+      opacity: 1, y: 0,
+      duration: 0.6,
+      ease: 'power3.out'
+    });
+
+    group.querySelectorAll('.sg-item').forEach((item, i) => {
+      gsap.to(item, {
+        scrollTrigger: trig,
+        opacity: 1, x: 0,
+        duration: 0.4,
+        delay: 0.07 + i * 0.055,
+        ease: 'power2.out'
+      });
+    });
+  });
+
+  gsap.to('#wtCallout', {
+    scrollTrigger: { trigger: '#wtCallout', start: 'top 85%', once: true },
+    opacity: 1, y: 0, duration: 0.65, ease: 'power3.out'
+  });
+
+  // ── VIDEOS ──
+  ['#vs1', '#vs2'].forEach((id, i) => {
+    gsap.to(id, {
+      scrollTrigger: { trigger: '#videos', start: 'top 78%', once: true },
+      opacity: 1, y: 0, duration: 0.6, delay: i * 0.12, ease: 'power3.out'
+    });
+  });
+
+  // ── CONTACT STEPS ──
+  document.querySelectorAll('.step').forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      opacity: 1, x: 0, duration: 0.5, delay: i * 0.09, ease: 'power2.out'
+    });
+  });
+
+  gsap.to('#contactCard', {
+    scrollTrigger: { trigger: '#contactCard', start: 'top 86%', once: true },
+    opacity: 1, y: 0, duration: 0.55, ease: 'power3.out'
+  });
+
+  // ── TICKET NUMBERS wave pop-in ──
+  gsap.to('.tn', {
+    scrollTrigger: { trigger: '#ticketsGrid', start: 'top 88%', once: true },
+    scale: 1, opacity: 1,
+    duration: 0.32,
+    stagger: { each: 0.007, from: 'start' },
+    ease: 'back.out(1.7)'
+  });
+</script>
+
+</body>
+</html>
