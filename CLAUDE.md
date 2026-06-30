@@ -28,10 +28,11 @@ Static single-page raffle site for a **Kawasaki ZX-6R 636 Racing 2006**. No buil
 | `--muted`  | `#666666` | Secondary / label text        |
 | `--text`   | `#BBBBBB` | Body text                     |
 | `--border` | `#1C1C1C` | Borders and dividers          |
+| *(no var)* | `#F59E0B` | Amber — `.rsvd` ticket state  |
 
 ## Key sections
 
-0. **Banner** (`#banner`) — Centered text-only section at the very top (above `#hero`). Animated by `bannerTl`, a `gsap.timeline()` chaining `.from()` calls — **not** the individual `gsap.to/from()` pattern used elsewhere.
+0. **Banner** (`#banner`) — Centered text-only section at the very top (above `#hero`). Background: `scontent/topo4.jpeg` via `.banner-bg` (blur 3px, brightness 0.38), overlaid by a red radial gradient `::before`. Animated by `bannerTl`, a `gsap.timeline()` chaining `.from()` calls — **not** the individual `gsap.to/from()` pattern used elsewhere.
 1. **Hero** (`#hero`) — Full-screen two-column grid. Left: title hierarchy + stats + CTA. Right: 7-photo fade carousel (`Kawa1.png`, `kt1–kt6.jpeg`) inside `.hero-img-frame`.
 2. **Specs** (`#specs`) — Sticky left panel (`.specs-pin`) + scrolling right column (`.specs-scroll`) with `.spec-group` blocks. ScrollTrigger reveals each group and its `.sg-item` rows with stagger.
 3. **Videos** (`#videos`) — Two `.video-slot` placeholder divs (`#vs1`, `#vs2`). Replace with `<iframe>` or `<video>` when ready.
@@ -41,7 +42,10 @@ Static single-page raffle site for a **Kawasaki ZX-6R 636 Racing 2006**. No buil
 ## CSS patterns
 
 - `.eyebrow` — shared Space Mono small-caps label used across all sections
-- `clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)` — diagonal cut corner, used on `.hero-img-frame`, `.topo-frame`, and `.btn-primary`
+- Diagonal cut corner via `clip-path`:
+  - **20px cut** — `polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)` — used on `.hero-img-frame` and `.topo-frame`
+  - **10px cut** — `polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)` — used on `.btn-primary`
+  - **12px cut** — `polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)` — used on `.topo-hosp-img`
 - Responsive breakpoints: `960px` (stacks hero, specs, topo, contacto grids to single column) and `600px` (stacks hero boxes, shrinks ticket grid cells)
 - `@media (prefers-reduced-motion)` collapses all animation durations to `0.01ms`
 
@@ -63,6 +67,8 @@ All animations run once (`once: true` on ScrollTrigger). Two types:
 - **Load animations** (banner, hero): `bannerTl.from()` timeline / individual `gsap.from()` / `gsap.to()` with sequential delays starting at ~0.35s
 - **Scroll animations**: `gsap.to()` with `scrollTrigger: { trigger, start: 'top 83–88%', once: true }` — elements start with `opacity: 0` and an offset transform in CSS, then animate to natural state
 
+**`gsap.to()` vs `gsap.from()` for load animations**: When an element has `opacity: 0` in CSS, always use `gsap.to(el, { opacity: 1, ... })` so opacity animates to 1. Using `gsap.from(el, { opacity: 0, ... })` when CSS already sets `opacity: 0` means the opacity stays at 0 (only the transform animates). `.hero-causa` and `.hero-note` currently use `gsap.from` with CSS `opacity: 0`, so their opacity doesn't transition — only the x/y offset does.
+
 When adding a new scroll-animated element: set `opacity: 0` and a `transform` in CSS, then add a `gsap.to()` block in the `<script>` following the existing pattern.
 
 ## Photos
@@ -72,9 +78,10 @@ All photos live in `scontent/`:
 | File | Used in |
 |------|---------|
 | `Kawa1.png` (also at repo root) | Hero carousel — slide 1 |
-| `kt1–kt6.jpeg` | Hero carousel — slides 2–7 |
+| `kt1–kt6.jpeg` | Hero carousel — slides 2–7 (HTML order: kt2, kt3, kt5, kt4, kt1, kt6) |
 | `topo1–topo6.jpeg` | Topo section carousel |
-| `topobg.jpeg` | Topo section background (blurred/darkened) |
+| `topo4.jpeg` | Banner section background (blur 3px, brightness 0.38) |
+| `topobg.jpeg` | Topo section background (blur 8px, brightness 0.18) |
 | `topohospital.jpeg` | Topo accident sub-section |
 | `topohospital2.jpeg` | Topo accident sub-section |
 
