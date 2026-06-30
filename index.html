@@ -853,6 +853,179 @@
       border: 0;
     }
 
+    /* ── TOPO ───────────────────────────────────────────────────── */
+    #topo {
+      position: relative;
+      padding: 8rem 6vw;
+      overflow: hidden;
+    }
+
+    .topo-bg {
+      position: absolute;
+      inset: 0;
+      background: url('scontent/topobg.jpeg') center/cover no-repeat;
+      filter: blur(8px) brightness(0.18);
+      transform: scale(1.06);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .topo-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 6vw;
+      align-items: center;
+    }
+
+    .topo-frame {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+      background: var(--surf);
+      opacity: 0;
+      transform: translateX(-24px);
+    }
+
+    .topo-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(209,0,0,0.3);
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .topo-carousel { position: absolute; inset: 0; }
+
+    .topo-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.75s ease;
+      display: block;
+    }
+
+    .topo-slide.active { opacity: 1; }
+
+    .topo-cbtn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(5,5,5,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+      padding: 0;
+    }
+
+    .topo-frame:hover .topo-cbtn { opacity: 1; }
+    .topo-cbtn:hover { background: rgba(209,0,0,0.5); border-color: var(--red); }
+    .topo-cbtn.prev { left: 10px; }
+    .topo-cbtn.next { right: 10px; }
+
+    .topo-cdots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 5;
+    }
+
+    .topo-cdot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      border: none;
+      padding: 0;
+    }
+
+    .topo-cdot.active { background: var(--red-b); transform: scale(1.4); }
+
+    .topo-content {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+
+    .topo-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      line-height: 0.88;
+      margin: 0.75rem 0 2rem;
+    }
+
+    .topo-heading .accent { color: var(--red); }
+
+    .topo-bio {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.85;
+      max-width: 460px;
+    }
+
+    .topo-bio em {
+      color: var(--white);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .topo-accident {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5vw;
+      align-items: center;
+      margin-top: 5rem;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .topo-acc-bio {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-top: 0.75rem;
+      max-width: 420px;
+    }
+
+    .topo-hosp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .topo-hosp-img {
+      aspect-ratio: 3/4;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    }
+
     /* ── CONTACTO ────────────────────────────────────────────────── */
     #contacto {
       padding: 8rem 6vw 6rem;
@@ -1053,6 +1226,9 @@
 
       .contacto-grid { grid-template-columns: 1fr; }
       .videos-grid   { grid-template-columns: 1fr; }
+      .topo-inner    { grid-template-columns: 1fr; }
+      .topo-frame    { max-width: 520px; margin: 0 auto; }
+      .topo-accident { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
@@ -1348,6 +1524,58 @@
 </section>
 
 
+<!-- ══════════════════════════ TOPO ══════════════════════════ -->
+<section id="topo">
+  <div class="topo-bg"></div>
+  <div class="topo-inner">
+
+    <div class="topo-frame" id="topoFrame">
+      <div class="topo-carousel" id="topoCarousel">
+        <img class="topo-slide active" src="scontent/topo1.jpeg" alt="El Topo">
+        <img class="topo-slide"        src="scontent/topo2.jpeg" alt="El Topo">
+        <img class="topo-slide"        src="scontent/topo3.jpeg" alt="El Topo">
+        <img class="topo-slide"        src="scontent/topo4.jpeg" alt="El Topo">
+        <img class="topo-slide"        src="scontent/topo5.jpeg" alt="El Topo">
+        <img class="topo-slide"        src="scontent/topo6.jpeg" alt="El Topo">
+      </div>
+      <button class="topo-cbtn prev" aria-label="Anterior">&#8249;</button>
+      <button class="topo-cbtn next" aria-label="Siguiente">&#8250;</button>
+      <div class="topo-cdots">
+        <button class="topo-cdot active" aria-label="Foto 1"></button>
+        <button class="topo-cdot" aria-label="Foto 2"></button>
+        <button class="topo-cdot" aria-label="Foto 3"></button>
+        <button class="topo-cdot" aria-label="Foto 4"></button>
+        <button class="topo-cdot" aria-label="Foto 5"></button>
+        <button class="topo-cdot" aria-label="Foto 6"></button>
+      </div>
+    </div>
+
+    <div class="topo-content" id="topoContent">
+      <p class="eyebrow">La causa</p>
+      <h2 class="topo-heading">¿QUIÉN ES<br><span class="accent">EL TOPO?</span></h2>
+      <p class="topo-bio">
+        <em>El Topoyiyo, Topo, Jorge, Compañero, Mugroso, Susuko</em>, es un buen amigo que tuvo un pequeño accidente y estamos rifando su moto Kawasaki que tanto trabajo le ha costado hacer y modificar.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="topo-accident" id="topoAccident">
+    <div>
+      <p class="eyebrow">El accidente</p>
+      <p class="topo-acc-bio">
+        Desafortunadamente tuvo un accidente y queremos apoyarlo para que tenga fondos para sus operaciones.
+      </p>
+    </div>
+    <div class="topo-hosp-grid">
+      <img class="topo-hosp-img" src="scontent/topohospital.jpeg"  alt="El Topo en el hospital">
+      <img class="topo-hosp-img" src="scontent/topohospital2.jpeg" alt="El Topo en recuperación">
+    </div>
+  </div>
+
+</section>
+
+
 <!-- ══════════════════════════ CONTACTO ══════════════════════════ -->
 <section id="contacto">
   <div class="contacto-grid">
@@ -1572,6 +1800,20 @@
     });
   });
 
+  // ── TOPO ──
+  gsap.to('#topoFrame', {
+    scrollTrigger: { trigger: '#topo', start: 'top 80%', once: true },
+    opacity: 1, x: 0, duration: 0.7, ease: 'power3.out'
+  });
+  gsap.to('#topoContent', {
+    scrollTrigger: { trigger: '#topo', start: 'top 80%', once: true },
+    opacity: 1, x: 0, duration: 0.7, delay: 0.13, ease: 'power3.out'
+  });
+  gsap.to('#topoAccident', {
+    scrollTrigger: { trigger: '#topoAccident', start: 'top 85%', once: true },
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out'
+  });
+
   // ── CONTACT STEPS ──
   document.querySelectorAll('.step').forEach((el, i) => {
     gsap.to(el, {
@@ -1584,6 +1826,46 @@
     scrollTrigger: { trigger: '#contactCard', start: 'top 86%', once: true },
     opacity: 1, y: 0, duration: 0.55, ease: 'power3.out'
   });
+
+  /* ── TOPO CAROUSEL ── */
+  (function () {
+    const slides = document.querySelectorAll('.topo-slide');
+    const dots   = document.querySelectorAll('.topo-cdot');
+    const frame  = document.getElementById('topoFrame');
+
+    if (slides.length <= 1) {
+      frame.querySelectorAll('.topo-cbtn').forEach(b => b.style.display = 'none');
+      frame.querySelectorAll('.topo-cdots').forEach(d => d.style.display = 'none');
+      return;
+    }
+
+    let current = 0, timer, startX = 0;
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function startAuto() { timer = setInterval(() => goTo(current + 1), 4500); }
+    function stopAuto()  { clearInterval(timer); }
+
+    frame.querySelector('.topo-cbtn.prev').addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+    frame.querySelector('.topo-cbtn.next').addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); }));
+
+    frame.addEventListener('mouseenter', stopAuto);
+    frame.addEventListener('mouseleave', startAuto);
+    frame.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    frame.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { stopAuto(); goTo(current + (dx < 0 ? 1 : -1)); startAuto(); }
+    }, { passive: true });
+
+    startAuto();
+  }());
 
   /* ── CAROUSEL ── */
   (function () {
