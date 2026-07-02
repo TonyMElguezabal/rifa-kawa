@@ -819,6 +819,10 @@
       transform: translateY(24px);
     }
 
+    .video-slot.portrait {
+      aspect-ratio: 9/16;
+    }
+
     .video-slot::before {
       content: '';
       position: absolute; inset: 0;
@@ -1582,32 +1586,16 @@
   <div class="videos-hd">
     <p class="eyebrow" style="display:flex;justify-content:center">En acción</p>
     <h2 class="videos-title">MÍRALA RODAR</h2>
-    <p class="videos-sub">La Kawasaki 636 Racing en pista. Videos disponibles próximamente.</p>
+    <p class="videos-sub">La Kawasaki 636 Racing en pista. Reconstrucción y velocidad máxima.</p>
   </div>
   <div class="videos-grid">
-    <!--
-      PARA AGREGAR UN VIDEO DE YOUTUBE:
-      Reemplaza la .video-slot entera con:
-      <div class="video-slot">
-        <iframe src="https://www.youtube.com/embed/ID_DEL_VIDEO" allowfullscreen></iframe>
-      </div>
-
-      PARA VIDEO LOCAL (.mp4):
-      <div class="video-slot">
-        <video src="tu-video.mp4" controls></video>
-      </div>
-    -->
+    <!-- Rebuild video (16:9 landscape) -->
     <div class="video-slot" id="vs1">
-      <div class="play-ring">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <p>Próximamente</p>
+      <video src="scontent/video1.mp4" controls></video>
     </div>
-    <div class="video-slot" id="vs2">
-      <div class="play-ring">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <p>Próximamente</p>
+    <!-- Top speed video (9:16 portrait) -->
+    <div class="video-slot portrait" id="vs2">
+      <video src="scontent/video2.mp4" controls></video>
     </div>
   </div>
 </section>
