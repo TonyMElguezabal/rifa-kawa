@@ -36,7 +36,7 @@ Static single-page raffle site for a **Kawasaki ZX-6R 636 Racing 2006**. No buil
 1. **Hero** (`#hero`) — Full-screen two-column grid. Left: title hierarchy + stats + CTA. Right: 7-photo fade carousel (`Kawa1.png`, `kt1–kt6.jpeg`) inside `.hero-img-frame`.
 2. **Specs** (`#specs`) — Sticky left panel (`.specs-pin`) + scrolling right column (`.specs-scroll`) with `.spec-group` blocks. ScrollTrigger reveals each group and its `.sg-item` rows with stagger.
 3. **Videos** (`#videos`) — Two `.video-slot` placeholder divs (`#vs1`, `#vs2`). Replace with `<iframe>` or `<video>` when ready.
-4. **Topo** (`#topo`) — "¿Quién es el Topo?" section. `scontent/topobg.jpeg` as a blurred/darkened full-section background. Two-column layout: left has a 6-photo carousel (`topo1–topo6.jpeg`), right has the bio text. Below the grid, a `.topo-accident` sub-section shows two hospital photos (`topohospital.jpeg`, `topohospital2.jpeg`) alongside the accident support text.
+4. **Topo** (`#topo`) — "¿Quién es el Topo?" section. `scontent/topobg.jpeg` as a blurred/darkened full-section background. Two-column layout: left has a 6-photo carousel (`topo1–topo6.jpeg`), right has the bio text. Below the grid, a `.topo-accident` sub-section displays hospital photos in a carousel (`hos1–hos3.jpeg`) alongside the accident support text.
 5. **Contacto** (`#contacto`) — Two-column grid. Left column: 3-step `.steps` list → `#pago` deposit card (BBVA account details) → `#contactCard` (WhatsApp). Right column: `.tickets-panel` with the dynamically rendered ticket grid.
 
 ## CSS patterns
@@ -51,7 +51,7 @@ Static single-page raffle site for a **Kawasaki ZX-6R 636 Racing 2006**. No buil
 
 ## Carousel pattern
 
-Two carousels exist: hero (`.carousel / .carousel-slide / .carousel-btn / .carousel-dots / .carousel-dot`) and topo (`.topo-carousel / .topo-slide / .topo-cbtn / .topo-cdots / .topo-cdot`). Both use the same logic:
+Three carousels exist: hero (`.carousel / .carousel-slide / .carousel-btn / .carousel-dots / .carousel-dot`), topo (`.topo-carousel / .topo-slide / .topo-cbtn / .topo-cdots / .topo-cdot`), and hospital (`.hosp-carousel / .hosp-slide / .hosp-cbtn / .hosp-cdots / .hosp-cdot`). All use the same logic:
 - Slides stack absolutely inside the frame; active slide has `opacity: 1`, others `opacity: 0`; transition is `0.75s ease`
 - Arrow buttons appear on hover of the frame, turn red on their own hover
 - Dots at the bottom center; active dot scales up in `--red-b`
@@ -82,8 +82,7 @@ All photos live in `scontent/`:
 | `topo1–topo6.jpeg` | Topo section carousel |
 | `topo4.jpeg` | Banner section background (blur 3px, brightness 0.38) |
 | `topobg.jpeg` | Topo section background (blur 8px, brightness 0.18) |
-| `topohospital.jpeg` | Topo accident sub-section |
-| `topohospital2.jpeg` | Topo accident sub-section |
+| `hos1–hos3.jpeg` | Topo accident sub-section (3-column grid) |
 
 To add photos to the hero carousel: add `<img class="carousel-slide" src="scontent/FILENAME">` inside `#heroCarousel` and a matching `<button class="carousel-dot">` inside `.carousel-dots`.
 

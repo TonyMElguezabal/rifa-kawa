@@ -227,7 +227,7 @@
       position: relative;
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       align-items: center;
       padding: 6rem 6vw 4rem;
       overflow: hidden;
@@ -1022,18 +1022,96 @@
       max-width: 420px;
     }
 
-    .topo-hosp-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
+    .hosp-frame {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+      background: var(--surf);
     }
 
-    .topo-hosp-img {
-      aspect-ratio: 3/4;
+    .hosp-carousel {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hosp-slide {
+      position: absolute;
+      inset: 0;
       width: 100%;
+      height: 100%;
       object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.75s ease;
       display: block;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    }
+
+    .hosp-slide.active {
+      opacity: 1;
+    }
+
+    .hosp-cbtn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(5,5,5,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+      padding: 0;
+    }
+
+    .hosp-frame:hover .hosp-cbtn {
+      opacity: 1;
+    }
+
+    .hosp-cbtn:hover {
+      background: rgba(209,0,0,0.5);
+      border-color: var(--red);
+    }
+
+    .hosp-cbtn.prev {
+      left: 10px;
+    }
+
+    .hosp-cbtn.next {
+      right: 10px;
+    }
+
+    .hosp-cdots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 5;
+    }
+
+    .hosp-cdot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      border: none;
+      padding: 0;
+    }
+
+    .hosp-cdot.active {
+      background: var(--red-b);
+      transform: scale(1.4);
     }
 
     /* ── CONTACTO ────────────────────────────────────────────────── */
@@ -1578,9 +1656,19 @@
         Desafortunadamente tuvo un accidente y queremos apoyarlo para que tenga fondos para sus operaciones.
       </p>
     </div>
-    <div class="topo-hosp-grid">
-      <img class="topo-hosp-img" src="scontent/topohospital.jpeg"  alt="El Topo en el hospital">
-      <img class="topo-hosp-img" src="scontent/topohospital2.jpeg" alt="El Topo en recuperación">
+    <div class="hosp-frame" id="hospFrame">
+      <div class="hosp-carousel" id="hospCarousel">
+        <img class="hosp-slide active" src="scontent/hos1.jpeg" alt="El Topo en el hospital">
+        <img class="hosp-slide" src="scontent/hos2.jpeg" alt="El Topo en recuperación">
+        <img class="hosp-slide" src="scontent/hos3.jpeg" alt="El Topo — seguimiento">
+      </div>
+      <button class="hosp-cbtn prev" aria-label="Anterior">&#8249;</button>
+      <button class="hosp-cbtn next" aria-label="Siguiente">&#8250;</button>
+      <div class="hosp-cdots">
+        <button class="hosp-cdot active" aria-label="Foto 1"></button>
+        <button class="hosp-cdot" aria-label="Foto 2"></button>
+        <button class="hosp-cdot" aria-label="Foto 3"></button>
+      </div>
     </div>
   </div>
 
@@ -1902,6 +1990,46 @@
 
     frame.querySelector('.topo-cbtn.prev').addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
     frame.querySelector('.topo-cbtn.next').addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); }));
+
+    frame.addEventListener('mouseenter', stopAuto);
+    frame.addEventListener('mouseleave', startAuto);
+    frame.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    frame.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { stopAuto(); goTo(current + (dx < 0 ? 1 : -1)); startAuto(); }
+    }, { passive: true });
+
+    startAuto();
+  }());
+
+  /* ── HOSPITAL CAROUSEL ── */
+  (function () {
+    const slides = document.querySelectorAll('.hosp-slide');
+    const dots   = document.querySelectorAll('.hosp-cdot');
+    const frame  = document.getElementById('hospFrame');
+
+    if (slides.length <= 1) {
+      frame.querySelectorAll('.hosp-cbtn').forEach(b => b.style.display = 'none');
+      frame.querySelectorAll('.hosp-cdots').forEach(d => d.style.display = 'none');
+      return;
+    }
+
+    let current = 0, timer, startX = 0;
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function startAuto() { timer = setInterval(() => goTo(current + 1), 4500); }
+    function stopAuto()  { clearInterval(timer); }
+
+    frame.querySelector('.hosp-cbtn.prev').addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+    frame.querySelector('.hosp-cbtn.next').addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
     dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); }));
 
     frame.addEventListener('mouseenter', stopAuto);
